@@ -16,7 +16,9 @@ if __name__ == '__main__':
     check.eliminate_duplicates()
     # print(check.calculate_total_sales())
     # print(check.calculate_total_sales_per_month())
-    print(check.identify_month_with_highest_sales())
+    print("------")
+    print(check.calculate_cumulative_sales())
+    # print(check.identify_month_with_highest_sales())
     # print(check.identify_best_selling_product())
 
     # print(check.analys_sales_data())
@@ -66,6 +68,7 @@ if __name__ == '__main__':
     #
     # result = check.process_params(param1, param2, param3, param4, param5)
     # print("Resulting dictionary:", result)
+# task 7 ex 6
     # print(check.data.head(3))  # הצגת שלוש שורות ראשונות
     # print(check.data.tail(2))  # הצגת שתי שורות אחרונות
     # print(check.data.sample(1))  # הצגת שורה אקראית

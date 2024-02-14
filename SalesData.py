@@ -3,7 +3,7 @@ import sys
 
 import pandas as pd
 import numpy as np
-import seaborn
+import seaborn as sns
 import matplotlib.pyplot as plt
 from fontTools.merge.util import current_time
 
@@ -18,15 +18,19 @@ class SalesData:
         """
         self.data = data
 
+    # --------------- Task 2 ----------------------
+    # ex 4
     def eliminate_duplicates(self):
         """
         Remove duplicate rows from the sales data.
         """
         try:
             self.data.drop_duplicates(inplace=True)
+            self.data.dropna(inplace=True)
         except Exception as e:
-            print(f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
-
+            print(
+                f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
+    # ex 5
     def calculate_total_sales(self):
         """
         Calculate total sales for each product.
@@ -38,22 +42,10 @@ class SalesData:
             total_sales = self.data.groupby('Product')['Quantity'].sum().reset_index()
             return total_sales
         except Exception as e:
-            print(f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
+            print(
+                f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
             return None
-
-    def identify_best_selling_product(self):
-        """
-        Identify the best-selling product.
-
-        Returns:
-        DataFrame: Information about the best-selling product.
-        """
-        try:
-            return self.calculate_total_sales().sort_values(by='Quantity', ascending=False).head(1)
-        except Exception as e:
-            print(f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
-            return None
-
+    # ex 6
     def calculate_total_sales_per_month(self):
         """
         Calculate total sales for each month.
@@ -66,9 +58,25 @@ class SalesData:
             total_sales = self.data.groupby(self.data['Date'].dt.strftime('%B'))['Quantity'].sum().reset_index()
             return total_sales
         except Exception as e:
-            print(f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
+            print(
+                f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
+            return None
+    # ex 7
+    def identify_best_selling_product(self):
+        """
+        Identify the best-selling product.
+
+        Returns:
+        DataFrame: Information about the best-selling product.
+        """
+        try:
+            return self.calculate_total_sales().sort_values(by='Quantity', ascending=False).head(1)
+        except Exception as e:
+            print(
+                f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
             return None
 
+    # ex 8
     def identify_month_with_highest_sales(self):
         """
         Identify the month with the highest sales.
@@ -79,10 +87,11 @@ class SalesData:
         try:
             return self.calculate_total_sales_per_month().sort_values(by='Quantity', ascending=False).head(1)
         except Exception as e:
-            print(f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
+            print(
+                f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
             return None
-
-    def analys_sales_data(self):
+    # ex 9
+    def analyze_sales_data(self):
         """
         Analyze sales data.
 
@@ -97,7 +106,7 @@ class SalesData:
         except Exception as e:
             print("An error occurred while analyzing sales data:", e)
             return None
-
+    # ex 10
     def add_to_dict(self):
         """
         Add additional analysis results to the analysis dictionary.
@@ -107,14 +116,16 @@ class SalesData:
         """
         try:
             tmp = self.analys_sales_data()
-            tmp.update({'minimest selling': self.calculate_total_sales_per_month()\
-                .sort_values(by='Quantity').head(1),
+            tmp.update({'minimest selling': self.calculate_total_sales_per_month() \
+                       .sort_values(by='Quantity').head(1),
                         'avg_sales_by_month': self.calculate_total_sales_per_month()['Quantity'].mean()})
             return tmp
         except Exception as e:
             print("An error occurred while adding to dictionary:", e)
             return None
 
+    # --------------- Task 3 ----------------------
+    # ex 11
     def calculate_cumulative_sales(self):
         """
         Calculate cumulative sales for each product across months.
@@ -124,13 +135,14 @@ class SalesData:
         """
         try:
             self.data['Date'] = pd.to_datetime(self.data['Date'], format="%d.%m.%Y")
-            cumulative_sales = self.data.pivot_table(index='Product', columns=self.data['Date'].dt.month, values='Total',
+            cumulative_sales = self.data.pivot_table(index='Product', columns=self.data['Date'].dt.month,
+                                                     values='Total',
                                                      aggfunc=np.sum, fill_value=0)
             return cumulative_sales
         except Exception as e:
             print("An error occurred while calculating cumulative sales:", e)
             return None
-
+    # ex 12
     def add_90_percent_values_column(self):
         """
         Add a column with 90% values to the sales data.
@@ -140,7 +152,22 @@ class SalesData:
             self.data['90%_Values'] = ninety_percent_values
         except Exception as e:
             print("An error occurred while adding 90% values column:", e)
-
+    # ex 13
+    def bar_chart_category_sum(self):
+        """
+        Generate a bar chart showing total quantity sold for each product.
+        """
+        try:
+            sns.set(style="whitegrid")
+            plt.figure(figsize=(12, 6))
+            sns.barplot(x="Product", y="Quantity", data=self.calculate_total_sales())
+            plt.title('Total Quantity Sold for Each Product')
+            plt.xticks(rotation=45)
+            plt.tight_layout()
+            plt.show()
+        except Exception as e:
+            print("An error occurred while generating bar chart:", e)
+    # ex 14
     def calculate_mean_quantity(self):
         """
         Calculate mean, median, and second maximum quantity.
@@ -157,7 +184,7 @@ class SalesData:
         except Exception as e:
             print("An error occurred while calculating mean quantity:", e)
             return None, None, None
-
+# ex 15 1
     def filter_by_sellings_or_and_1(self):
         """
         Filter data based on quantity criteria.
@@ -173,6 +200,7 @@ class SalesData:
             print("An error occurred while filtering by sellings or and 1:", e)
             return None
 
+    # ex 15 2
     def filter_by_sellings_or_and_2(self):
         """
         Filter data based on quantity and price criteria.
@@ -189,25 +217,11 @@ class SalesData:
             print("An error occurred while filtering by sellings or and 2:", e)
             return None
 
-    def bar_chart_category_sum(self):
-        """
-        Generate a bar chart showing total quantity sold for each product.
-        """
-        try:
-            sns.set(style="whitegrid")
-            plt.figure(figsize=(12, 6))
-            sns.barplot(x="Product", y="Quantity", data=self.calculate_total_sales())
-            plt.title('Total Quantity Sold for Each Product')
-            plt.xticks(rotation=45)
-            plt.tight_layout()
-            plt.show()
-        except Exception as e:
-            print("An error occurred while generating bar chart:", e)
-
+# ex 16
     def divide_by_2(self):
         five_percent = self.data['Price'] * 0.5
         self.data['BlackFridayPrice'] = five_percent
-
+# ex 17
     def calculate_stats(self, columns: str = None):
         """
         Calculate statistics for the SalesData DataFrame.
@@ -226,7 +240,6 @@ class SalesData:
             for col in columns:
                 if self.data[col].dtype != 'object':  # Exclude non-numeric columns
                     col_stats = {}  # Dictionary to store statistics for the current column
-
                     # Calculate statistics
                     col_stats['max'] = self.data[col].max()
                     col_stats['sum'] = self.data[col].sum()
@@ -239,26 +252,20 @@ class SalesData:
         except Exception as e:
             print("An error occurred while calculating statistics:", e)
             return None
-
-    import pandas as pd
-    import numpy as np
-
-    def random_value(self,product_name):
-        # סכום היחידות שהוזמנו מהמוצר הרצוי
+    # --------------- Task 7 ----------------------
+ # ex 3
+    def random_value(self, product_name):
         total_units_ordered = self.data.loc[self.data['Product'] == product_name, 'Quantity'].sum()
 
-        # הסכום המקסימלי ששולם עבור הזמנה כלשהי
         max_total_amount = self.data['Total'].max()
 
-        # יצירת ערך רנדומלי בין סכום היחידות לסכום המקסימלי
         random_value = np.random.randint(total_units_ordered, max_total_amount + 1)
 
-        # אחסון הערך הרנדומלי והטווח ממנו הוגרל במערך
         result_array = [random_value, total_units_ordered, max_total_amount]
-
+# ex 4
         print("Python version:", sys.version)
         return result_array
-
+# ex 5
     def process_params(*args):
         result_dict = {}
         for arg in args:
@@ -268,13 +275,7 @@ class SalesData:
             else:
                 print(arg)
         return result_dict
-
-    def print_numeric_value(self,value):
+# ex 7
+    def print_numeric_value(self, value):
         if pd.api.types.is_numeric_dtype(type(value)):
             print(value)
-
-
-
-
-
-

@@ -12,7 +12,8 @@ class MyTestCase(unittest.TestCase):
         self.data = pd.DataFrame({
             'Product': ['A', 'B', 'C', 'A', 'B'],
             'Quantity': [10, 20, 30, 40, 50],
-            'Date': ['01.01.2022', '01.02.2022', '01.03.2022', '01.01.2022', '01.02.2022'],
+            'Date': ['01.01.2022', '01.02.2022', '01.03.2022', '01.01.2022',
+                     '01.02.2022'],
             'Total': [100, 200, 300, 400, 500],
             'Price': [10, 20, 30, 40, 50]
         })
@@ -20,12 +21,10 @@ class MyTestCase(unittest.TestCase):
 
 
     def test_eliminate_duplicates(self):
-        # בדיקה שהפונקציה מסירה רשומות כפולות
         self.sales_data.eliminate_duplicates()
         self.assertEqual(len(self.sales_data.data), len(self.data.drop_duplicates()))
 
     def test_calculate_total_sales(self):
-        # בדיקה שהפונקציה מחשבת סכום מכירות נכון לכל מוצר
         total_sales = self.sales_data.calculate_total_sales()
         expected_totals = self.data.groupby('Product')['Quantity'].sum().reset_index()
         pd.testing.assert_frame_equal(total_sales, expected_totals)

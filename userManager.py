@@ -3,6 +3,7 @@ import re
 from typing import List
 
 class UsersManager:
+
     def __init__(self):
         self.users_file_path = "UsersName.txt"
         self.emails_file_path = "UsersEmail.txt"
@@ -10,7 +11,8 @@ class UsersManager:
         self.first_10_percent_users = []
         self.valid_emails = []
         self.gmail_addresses = []
-
+    # --------------- Task 8 ----------------------
+    # ex 1
     def create_missing_file(self):
         """
         Check if the users file exists, if not, create it.
@@ -18,7 +20,7 @@ class UsersManager:
         if not os.path.exists(self.users_file_path):
             with open(self.users_file_path, "w") as f:
                 f.write("")
-
+# ex 2
     def read_users_from_file(self):
         """
         Read usernames from the users file into a generator.
@@ -26,7 +28,7 @@ class UsersManager:
         with open(self.users_file_path, "r") as f:
             for line in f:
                 yield line.strip()
-
+# ex 3
     def read_users_into_array(self):
         """
         Read usernames from the users file into an array.
@@ -41,7 +43,7 @@ class UsersManager:
         num_users = len(self.users)
         ten_percent = int(0.1 * num_users)
         self.first_10_percent_users = self.users[:ten_percent]
-
+# ex 4
     def process_even_rows(self):
         """
         Process usernames from even rows in the users file.
@@ -50,7 +52,7 @@ class UsersManager:
             for idx, line in enumerate(f):
                 if idx % 2 == 0:
                     print(line.strip())
-
+# ex 5
     def read_emails(self):
         """
         Read and validate email addresses of users.
@@ -62,22 +64,14 @@ class UsersManager:
                 if re.match(r"[^@]+@[^@]+\.[^@]+", email):
                     valid_emails.append(email)
         self.valid_emails = valid_emails
-
+# ex 6
     def get_gmail_addresses(self):
         """
         Get Gmail addresses from the list of emails.
         """
         self.gmail_addresses = [email for email in self.valid_emails if email.endswith("@gmail.com")]
 
-    def check_username_in_list(self, username: str):
-        """
-        Check if a username exists in the list of users.
-        """
-        if username in self.users:
-            print(f"{username} exists in the list of users.")
-        else:
-            print(f"{username} does not exist in the list of users.")
-
+# ex 7
     def check_email_username(self):
         for email, username in zip(self.valid_emails, self.users):
             if username in email:
@@ -85,17 +79,19 @@ class UsersManager:
             else:
                 print(f"Username {username} is not present in email {email}")
 
-
-
-
-
-    def count_letter_a_occurrences(self, username: str):
+# ex 8
+    def check_username_in_list(self, username: str):
         """
-        Count occurrences of the letter 'a' in a username.
+        Check if a username exists in the list of users.
         """
-        a_count = username.lower().count("a")
-        print(f"The letter 'a' appears {a_count} times in the username.")
+        if username in self.users:
+            print(f"{username} exists in the list of users.")
+            a_count = username.lower().count("a")
+            print(f"The letter 'a' appears {a_count} times in the {username}.")
+        else:
+            print(f"{username} does not exist in the list of users.")
 
+# ex 9
     def capitalize_all_users(self):
         """
         Capitalize all usernames in the list.
@@ -107,7 +103,7 @@ class UsersManager:
                 print(f"{username} dont begin with upper")
 
 
-
+# ex 10
     def calculate_payment(self, customer_numbers: List[int]):
         """
         Calculate total payment for a group of customers based on the specified payment rules.
@@ -129,8 +125,7 @@ if __name__ == '__main__':
     manager.read_emails()
     manager.get_gmail_addresses()
     manager.check_email_username()
-    manager.check_username_in_list("John")
-    manager.count_letter_a_occurrences("John")
+    manager.check_username_in_list("Tova")
     manager.capitalize_all_users()
     total_payment = manager.calculate_payment([9, 5])
     print("Total payment:", total_payment)
