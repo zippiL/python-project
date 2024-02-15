@@ -17,7 +17,6 @@ class FileOperation:
         self.data.plot.line(subplots=True)
         plt.show()
     def box_plot(self):
-        plt.figure(figsize=(10, 6))
         self.data.boxplot(column=['Quantity', 'Price', 'Total'], by='Product')
         plt.title('Boxplot of Product Orders')
         plt.xlabel('Product')
@@ -116,21 +115,17 @@ class FileOperation:
         data.to_csv(file_name)
 
 
+    # ex 2 task 7
     def read_file(self, file_path: str, file_type: str):
         try:
             if file_type == 'csv':
-                return self.read_csv(file_path)
+                return self.read_excel(file_path)
             else:
                 with open(file_path, 'r') as file:
                     content = file.read()
                 return content
 
-        except FileNotFoundError:
-            error_message = f"<Leah&Tamar, {datetime.now()}> The file {file_path} was not found <Leah&Tamar>"
-            print(error_message)
-            return None
 
         except Exception as e:
-            error_message = f"<Leah&Tamar, {datetime.now()}> An error occurred while reading file: {e} <Leah&Tamar>"
-            print(error_message)
+            print(e)
             return None

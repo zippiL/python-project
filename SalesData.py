@@ -196,8 +196,7 @@ class SalesData:
         try:
             self.data['Date'] = pd.to_datetime(self.data['Date'], format="%d.%m.%Y")
             cumulative_sales = self.data.pivot_table(index='Product', columns=self.data['Date'].dt.month,
-                                                     values='Total',
-                                                     aggfunc=np.sum, fill_value=0)
+                                                     values='Total', aggfunc='sum', fill_value=0)
             return cumulative_sales
         except Exception as e:
             print("An error occurred while calculating cumulative sales:", e)
