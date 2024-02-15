@@ -30,6 +30,7 @@ class SalesData:
         except Exception as e:
             print(
                 f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
+
     # ex 5
     def calculate_total_sales(self):
         """
@@ -45,6 +46,8 @@ class SalesData:
             print(
                 f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
             return None
+
+
     # ex 6
     def calculate_total_sales_per_month(self):
         """
@@ -56,12 +59,67 @@ class SalesData:
         try:
             self.data['Date'] = pd.to_datetime(self.data['Date'], format='%d.%m.%Y')
             total_sales = self.data.groupby(self.data['Date'].dt.strftime('%B'))['Quantity'].sum().reset_index()
+
             return total_sales
         except Exception as e:
             print(
                 f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
             return None
+
+    def plot_sales_data(self):
+        """
+        Plot sales data using Matplotlib.
+        """
+        try:
+            # Calculate total sales per month
+            total_sales_per_month = self.calculate_total_sales_per_month()
+
+            # Plot a pie chart
+            plt.figure(figsize=(8, 8))
+            plt.pie(total_sales_per_month['Quantity'], labels=total_sales_per_month['Date'], autopct='%1.1f%%',
+                    startangle=140)
+            plt.title('Total Sales Distribution Per Month')
+            plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+            plt.show()
+        except Exception as e:
+            print("An error occurred while plotting sales data:", e)
+
+    def plot_sales_data_with_seaborn(self):
+        """
+        Plot sales data using Seaborn.
+        """
+        try:
+            # Calculate total sales per month
+            total_sales_per_month = self.calculate_total_sales_per_month()
+
+            # Plot a pie chart with Seaborn
+            plt.figure(figsize=(8, 8))
+            sns.set_style("whitegrid")  # Set seaborn style
+            sns.barplot(x='Date', y='Quantity', data=total_sales_per_month)
+            plt.title('Total Sales Distribution Per Month')
+            plt.xlabel('Month')
+            plt.ylabel('Total Sales')
+            plt.show()
+        except Exception as e:
+            print("An error occurred while plotting sales data with Seaborn:", e)
+
+    def create_scatter_plot(self):
+        try:
+            total_sales = self.calculate_total_sales_per_month()
+            if total_sales is not None:
+                plt.figure(figsize=(10, 6))
+                plt.scatter(total_sales.index, total_sales['Quantity'], color='blue')
+                plt.title('Total Sales per Month')
+                plt.xlabel('Month')
+                plt.ylabel('Total Sales')
+                plt.xticks(range(len(total_sales)), total_sales['Date'], rotation=45)
+                plt.tight_layout()
+                plt.show()
+        except Exception as e:
+            print("An error occurred while creating scatter plot:", e)
+
     # ex 7
+
     def identify_best_selling_product(self):
         """
         Identify the best-selling product.
@@ -90,6 +148,7 @@ class SalesData:
             print(
                 f"<Shoshi&Racheli&Zippi, {datetime.date.today()}, {current_time}> An error occurred while calculating total sales: {e} <Shoshi&Racheli&Zippi>")
             return None
+
     # ex 9
     def analyze_sales_data(self):
         """
@@ -106,6 +165,7 @@ class SalesData:
         except Exception as e:
             print("An error occurred while analyzing sales data:", e)
             return None
+
     # ex 10
     def add_to_dict(self):
         """
@@ -142,6 +202,45 @@ class SalesData:
         except Exception as e:
             print("An error occurred while calculating cumulative sales:", e)
             return None
+
+    def plot_sales_data_product(self):
+        """
+        Plot sales data using Matplotlib.
+        """
+        try:
+            # Calculate cumulative sales
+            cumulative_sales = self.calculate_cumulative_sales()
+
+            # Plot a histogram
+            plt.figure(figsize=(10, 6))
+            plt.hist(cumulative_sales.values.flatten(), bins=10, color='skyblue', edgecolor='black')
+            plt.title('Frequency of Cumulative Sales')
+            plt.xlabel('Cumulative Sales')
+            plt.ylabel('Frequency')
+            plt.grid(True)
+            plt.show()
+        except Exception as e:
+            print("An error occurred while plotting sales data:", e)
+
+    def plot_sales_data_product_with_seaborn(self):
+        """
+        Plot sales data using Seaborn.
+        """
+        try:
+            # Calculate cumulative sales
+            cumulative_sales = self.calculate_cumulative_sales()
+
+            # Plot a histogram with Seaborn
+            plt.figure(figsize=(10, 6))
+            sns.histplot(cumulative_sales.values.flatten(), bins=10, color='skyblue', edgecolor='black', kde=False)
+            plt.title('Frequency of Cumulative Sales')
+            plt.xlabel('Cumulative Sales')
+            plt.ylabel('Frequency')
+            plt.grid(True)
+            plt.show()
+        except Exception as e:
+            print("An error occurred while plotting sales data with Seaborn:", e)
+
     # ex 12
     def add_90_percent_values_column(self):
         """
@@ -152,6 +251,7 @@ class SalesData:
             self.data['90%_Values'] = ninety_percent_values
         except Exception as e:
             print("An error occurred while adding 90% values column:", e)
+
     # ex 13
     def bar_chart_category_sum(self):
         """
@@ -167,6 +267,7 @@ class SalesData:
             plt.show()
         except Exception as e:
             print("An error occurred while generating bar chart:", e)
+
     # ex 14
     def calculate_mean_quantity(self):
         """
@@ -184,7 +285,8 @@ class SalesData:
         except Exception as e:
             print("An error occurred while calculating mean quantity:", e)
             return None, None, None
-# ex 15 1
+
+    # ex 15 1
     def filter_by_sellings_or_and_1(self):
         """
         Filter data based on quantity criteria.
@@ -217,11 +319,12 @@ class SalesData:
             print("An error occurred while filtering by sellings or and 2:", e)
             return None
 
-# ex 16
+    # ex 16
     def divide_by_2(self):
         five_percent = self.data['Price'] * 0.5
         self.data['BlackFridayPrice'] = five_percent
-# ex 17
+
+    # ex 17
     def calculate_stats(self, columns: str = None):
         """
         Calculate statistics for the SalesData DataFrame.
@@ -252,8 +355,9 @@ class SalesData:
         except Exception as e:
             print("An error occurred while calculating statistics:", e)
             return None
+
     # --------------- Task 7 ----------------------
- # ex 3
+    # ex 3
     def random_value(self, product_name):
         total_units_ordered = self.data.loc[self.data['Product'] == product_name, 'Quantity'].sum()
 
@@ -262,10 +366,11 @@ class SalesData:
         random_value = np.random.randint(total_units_ordered, max_total_amount + 1)
 
         result_array = [random_value, total_units_ordered, max_total_amount]
-# ex 4
+        # ex 4
         print("Python version:", sys.version)
         return result_array
-# ex 5
+
+    # ex 5
     def process_params(*args):
         result_dict = {}
         for arg in args:
@@ -275,7 +380,8 @@ class SalesData:
             else:
                 print(arg)
         return result_dict
-# ex 7
+
+    # ex 7
     def print_numeric_value(self, value):
         if pd.api.types.is_numeric_dtype(type(value)):
             print(value)

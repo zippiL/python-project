@@ -72,4 +72,9 @@ if __name__ == '__main__':
     # print(check.data.head(3))  # הצגת שלוש שורות ראשונות
     # print(check.data.tail(2))  # הצגת שתי שורות אחרונות
     # print(check.data.sample(1))  # הצגת שורה אקראית
-    check.data.map(check.print_numeric_value)
+    # check.data.map(check.print_numeric_value)
+    # check.plot_sales_data()
+    # check.plot_sales_data_product()
+    # check.create_scatter_plot()
+    check.plot_sales_data_with_seaborn()
+    # check.plot_sales_data_product_with_seaborn()

@@ -2,8 +2,6 @@
 from FileOperation import FileOperation
 from SalesData import SalesData
 
-
-
 if __name__ == '__main__':
     sales_data_analyzer = FileOperation(data=None)
 
@@ -26,15 +24,20 @@ if __name__ == '__main__':
     # print(check.identify_best_selling_product())
 
     # print(check.analys_sales_data())
-    print(check.add_to_dict())
-
-
+   # print(check.add_to_dict())
 
     # Perform analysis
 
-
     # Print analysis results
-    print("Analysis results:")
+    # print("Analysis results:")
+    df = sales_data_analyzer.data
+    # sales_data_analyzer.polar_plot()
+    # sales_data_analyzer.violin_plot()
+    # sales_data_analyzer.box_plot()
+    # sales_data_analyzer.line_plot()
+    sales_data_analyzer.polar_plot_with_seaborn()
+    # sales_data_analyzer.line_plot_with_seaborn()
+    # sales_data_analyzer.violin_plot_with_seaborn()
 
     # Save data to CSV
 
